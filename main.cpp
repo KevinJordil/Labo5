@@ -19,7 +19,7 @@ using namespace std;
 
 int main() {
 
-   // Interfaces utilisateur
+   // Interface utilisateur
 
 
    system("PAUSE");
