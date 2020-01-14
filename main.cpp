@@ -1,6 +1,6 @@
 /*
  -----------------------------------------------------------------------------------
- Laboratoire : 5
+ Laboratoire : 05
  Fichier     : main.cpp
  Auteur(s)   : Kevin Jordil & Filipe Dias Morais
  Date        : 21.01.2020
@@ -17,10 +17,9 @@
 #include <iostream>
 using namespace std;
 
-int main() {
-
+int main()
+{
    // Interface utilisateur
-
 
    system("PAUSE");
    return EXIT_SUCCESS;
