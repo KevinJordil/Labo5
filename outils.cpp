@@ -12,8 +12,12 @@
  Compilateur : MinGW-g++ 6.3.0
  -----------------------------------------------------------------------------------
 */
-
+#include <cstdlib>
+#include <iostream>
 #include <vector>
+#include <limits>
+
+using namespace std;
 
 using Vecteur = std::vector<int>;
 using Matrice = std::vector<Vecteur>;
@@ -23,11 +27,56 @@ void lire(Vecteur &v)
    //Ne pas ecrire "Saisir vecteur:"
    //Saisir la taille du vecteur
    //Saisir chaque composante
+
+   unsigned nombreComposantes;
+
+   cout << "Saisir le nombre de composantes du vecteur : ";
+   cin >> nombreComposantes;
+
+   while (cin.fail())
+   {
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+      cout << "La valeur saisie n'est pas un entier, essayez de nouveau : ";
+      cin >> nombreComposantes;
+   }
+
+   v.resize(nombreComposantes);
+
+   int entierUtilisateur;
+
+   for (unsigned i = 0; i < nombreComposantes; i++)
+   {
+      cout << "Saisir le composant numero " << i << " : ";
+
+      cin >> entierUtilisateur;
+
+      while (cin.fail())
+      {
+         cin.clear();
+         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+         cout << "La valeur saisie n'est pas un entier, essayez de nouveau : ";
+         cin >> entierUtilisateur;
+      }
+      v.at(i) = entierUtilisateur;
+   }
 }
 
 void afficher(const Vecteur &v)
 {
    //Afficher sans texte
+   cout << "[";
+   for (int val : v)
+   {
+      cout << val;
+      if (val != v.back())
+      {
+         cout << ", ";
+      }
+   }
+   cout << "]" << endl;
 }
 
 bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v)
