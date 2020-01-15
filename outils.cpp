@@ -22,25 +22,21 @@ using namespace std;
 using Vecteur = std::vector<int>;
 using Matrice = std::vector<Vecteur>;
 
+void verificationEntier(int &entreeUtilisateur);
+void verificationEntierPositif(int &entreeUtilisateur);
+
 void lire(Vecteur &v)
 {
    //Ne pas ecrire "Saisir vecteur:"
    //Saisir la taille du vecteur
    //Saisir chaque composante
 
-   unsigned nombreComposantes;
+   int nombreComposantes;
 
    cout << "Saisir le nombre de composantes du vecteur : ";
    cin >> nombreComposantes;
 
-   while (cin.fail())
-   {
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-      cout << "La valeur saisie n'est pas un entier, essayez de nouveau : ";
-      cin >> nombreComposantes;
-   }
+   verificationEntierPositif(nombreComposantes);
 
    v.resize(nombreComposantes);
 
@@ -52,14 +48,7 @@ void lire(Vecteur &v)
 
       cin >> entierUtilisateur;
 
-      while (cin.fail())
-      {
-         cin.clear();
-         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-         cout << "La valeur saisie n'est pas un entier, essayez de nouveau : ";
-         cin >> entierUtilisateur;
-      }
+      verificationEntier(entierUtilisateur);
       v.at(i) = entierUtilisateur;
    }
 }
@@ -68,7 +57,7 @@ void afficher(const Vecteur &v)
 {
    //Afficher sans texte
    cout << "[";
-   for (auto& val : v)
+   for (auto &val : v)
    {
       cout << val;
       if (&val != &v.back())
@@ -81,7 +70,6 @@ void afficher(const Vecteur &v)
 
 bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v)
 {
-   
 }
 
 Vecteur multiplicationParScalaire(int n, const Vecteur &v)
@@ -98,28 +86,14 @@ void lire(Matrice &m)
    //Saisir la taille de la matrice
    //Saisir chaque composante
    cout << "Saisir le nombre de lignes : ";
-   unsigned lignesMatrice;
+   int lignesMatrice;
    cin >> lignesMatrice;
-   while (cin.fail())
-   {
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-      cout << "La valeur saisie n'est pas un entier, essayez de nouveau : ";
-      cin >> lignesMatrice;
-   }
+   verificationEntierPositif(lignesMatrice);
 
    cout << "Saisir le nombre de colonnes : ";
-   unsigned colonnesMatrice;
+   int colonnesMatrice;
    cin >> colonnesMatrice;
-   while (cin.fail())
-   {
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-      cout << "La valeur saisie n'est pas un entier, essayez de nouveau : ";
-      cin >> colonnesMatrice;
-   }
+   verificationEntierPositif(colonnesMatrice);
 
    m.resize(lignesMatrice);
 
@@ -134,32 +108,24 @@ void lire(Matrice &m)
    {
       for (unsigned j = 0; j < colonnesMatrice; j++)
       {
-         cout << "Saisir le composant de la ligne " << i << " colonne" << j << " : ";
+         cout << "Saisir le composant de la ligne " << i << " colonne " << j << " : ";
 
          cin >> entierUtilisateur;
 
-         while (cin.fail())
-         {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-            cout << "La valeur saisie n'est pas un entier, essayez de nouveau : ";
-            cin >> entierUtilisateur;
-         }
-         cout << m.at(0).size() << endl;
+         verificationEntier(entierUtilisateur);
          m.at(i).at(j) = entierUtilisateur;
       }
    }
 }
 
-void afficher(const Matrice& m)
+void afficher(const Matrice &m)
 {
    //Afficher sans texte
    cout << "[";
-   for (auto& ligne : m)
+   for (auto &ligne : m)
    {
       cout << "[";
-      for (auto& colonne : ligne)
+      for (auto &colonne : ligne)
       {
          cout << colonne;
          if (&colonne != &ligne.back())
@@ -172,10 +138,8 @@ void afficher(const Matrice& m)
    cout << "]" << endl;
 }
 
-bool addition(const Matrice& m1, const Matrice& m2, Matrice& m)
+bool addition(const Matrice &m1, const Matrice &m2, Matrice &m)
 {
-   cout << "in addition";
-   afficher(m1);
    m = m1;
    return true;
 }
@@ -186,4 +150,28 @@ bool produit(const Matrice &m1, const Matrice &m2, Matrice &m)
 
 Matrice transposee(const Matrice &m)
 {
+}
+
+void verificationEntier(int &entreeUtilisateur)
+{
+   while (cin.fail())
+   {
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+      cout << "La valeur n'est pas un entier, essayez de nouveau : ";
+      cin >> entreeUtilisateur;
+   }
+}
+
+void verificationEntierPositif(int &entreeUtilisateur)
+{
+   while (cin.fail() || entreeUtilisateur < 1)
+   {
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+      cout << "La valeur n'est pas un entier positif, essayez de nouveau : ";
+      cin >> entreeUtilisateur;
+   }
 }
