@@ -103,7 +103,6 @@ int main()
 }
 
 unsigned affichageChoixOperation(){
-   system("cls");
    cout << "----------------------MENU----------------------" << endl;
    cout << "0. Quitter" << endl;
    cout << "VECTEURS :" << endl;
