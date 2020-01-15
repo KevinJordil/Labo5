@@ -27,8 +27,7 @@ bool matriceValide(const Matrice &m, bool matriceCarre = false);
 void verificationEntier(int &entreeUtilisateur);
 void verificationEntierPositif(int &entreeUtilisateur);
 
-void lire(Vecteur &v)
-{
+void lire(Vecteur &v) {
    //Ne pas ecrire "Saisir vecteur:"
 
    //Saisir la taille du vecteur
@@ -45,8 +44,7 @@ void lire(Vecteur &v)
 
    int entierUtilisateur;
 
-   for (unsigned i = 0; i < nombreComposantes; i++)
-   {
+   for (unsigned i = 0; i < nombreComposantes; i++) {
       cout << "Saisir le composant numero " << i << " : ";
 
       cin >> entierUtilisateur;
@@ -59,11 +57,9 @@ void lire(Vecteur &v)
 void afficher(const Vecteur &v) {
    //Afficher sans texte
    cout << "[";
-   for (auto &val : v)
-   {
+   for (auto &val : v) {
       cout << val;
-      if (&val != &v.back())
-      {
+      if (&val != &v.back()) {
          cout << ", ";
       }
    }
@@ -95,18 +91,16 @@ void lire(Matrice &m) {
 
    m.resize(lignesMatrice);
 
-   for (unsigned i = 0; i < lignesMatrice; i++)
-   {
+   for (unsigned i = 0; i < lignesMatrice; i++) {
       m.at(i).resize(colonnesMatrice);
    }
 
    int entierUtilisateur;
 
-   for (unsigned i = 0; i < lignesMatrice; i++)
-   {
-      for (unsigned j = 0; j < colonnesMatrice; j++)
-      {
-         cout << "Saisir le composant de la ligne " << i << " colonne " << j << " : ";
+   for (unsigned i = 0; i < lignesMatrice; i++) {
+      for (unsigned j = 0; j < colonnesMatrice; j++) {
+         cout << "Saisir le composant de la ligne " << i << " colonne " << j
+              << " : ";
 
          cin >> entierUtilisateur;
 
@@ -119,18 +113,16 @@ void lire(Matrice &m) {
 void afficher(const Matrice &m) {
    //Afficher sans texte
    cout << "[";
-   for (auto &ligne : m)
-   {
+   for (auto &ligne : m) {
       cout << "[";
-      for (auto &colonne : ligne)
-      {
+      for (auto &colonne : ligne) {
          cout << colonne;
          if (&colonne != &ligne.back())
-         {
             cout << ", ";
-         }
       }
-      cout << "];";
+      cout << "]";
+      if (&ligne != &m.back())
+         cout << ";";
    }
    cout << "]" << endl;
 }
@@ -168,14 +160,17 @@ bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
        m1[0].size() != m2.size())
       return false;
 
-   // TODO Resize m
-   for (size_t row = 0; row < m.size(); ++row) {
-      for (size_t col = 0; col < m.at(0).size(); ++col) {
-         for (size_t inner = 0; inner < m2.size(); ++inner) {
-            m.at(row).at(col) += m1.at(row).at(inner) * m2.at(inner).at(col);
+   m.resize(m1.size());
+
+   for(size_t i = 0; i < m1.size(); ++i){
+      m[i].resize(m2[0].size());
+      for(size_t j = 0; j < m2[0].size(); ++j)
+         for(size_t k = 0; k < m1[0].size(); ++k)
+         {
+            m[i][j] += m1[i][k] * m2[k][j];
          }
-      }
    }
+
    return true;
 }
 
@@ -183,7 +178,7 @@ Matrice transposee(const Matrice &m) {
    if (not matriceValide(m))
       return m;
 
-   std::vector<std::vector<int>> mTranspose(m.size(),std::vector<int>(m[0].size()));
+   std::vector<std::vector<int>> mTranspose(m.size(), std::vector<int>(m[0].size()));
 
    for (size_t i = 0; i < m.size(); i++)
       for (size_t j = 0; j < m[i].size(); j++)
@@ -192,10 +187,8 @@ Matrice transposee(const Matrice &m) {
    return mTranspose;
 }
 
-void verificationEntier(int &entreeUtilisateur)
-{
-   while (cin.fail())
-   {
+void verificationEntier(int &entreeUtilisateur) {
+   while (cin.fail()) {
       cin.clear();
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -204,10 +197,8 @@ void verificationEntier(int &entreeUtilisateur)
    }
 }
 
-void verificationEntierPositif(int &entreeUtilisateur)
-{
-   while (cin.fail() || entreeUtilisateur < 1)
-   {
+void verificationEntierPositif(int &entreeUtilisateur) {
+   while (cin.fail() || entreeUtilisateur < 1) {
       cin.clear();
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
