@@ -151,7 +151,7 @@ bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
          m[i][j] = m1[i][j] + m2[i][j];
       }
    }
-
+   m.shrink_to_fit();
    return true;
 }
 
@@ -164,13 +164,14 @@ bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
 
    for(size_t i = 0; i < m1.size(); ++i){
       m[i].resize(m2[0].size());
-      for(size_t j = 0; j < m2[0].size(); ++j)
-         for(size_t k = 0; k < m1[0].size(); ++k)
-         {
+      for(size_t j = 0; j < m2[0].size(); ++j) {
+         m[i][j] = 0;
+         for (size_t k = 0; k < m1[0].size(); ++k) {
             m[i][j] += m1[i][k] * m2[k][j];
          }
+      }
    }
-
+   m.shrink_to_fit();
    return true;
 }
 
@@ -184,6 +185,7 @@ Matrice transposee(const Matrice &m) {
       for (size_t j = 0; j < m[i].size(); j++)
          mTranspose[i][j] = m[j][i];
 
+   mTranspose.shrink_to_fit();
    return mTranspose;
 }
 
