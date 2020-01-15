@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <limits>
 
 using namespace std;
@@ -22,12 +23,14 @@ using namespace std;
 using Vecteur = std::vector<int>;
 using Matrice = std::vector<Vecteur>;
 
+bool matriceValide(const Matrice &m, bool matriceCarre = false);
 void verificationEntier(int &entreeUtilisateur);
 void verificationEntierPositif(int &entreeUtilisateur);
 
 void lire(Vecteur &v)
 {
    //Ne pas ecrire "Saisir vecteur:"
+
    //Saisir la taille du vecteur
    //Saisir chaque composante
 
@@ -53,8 +56,7 @@ void lire(Vecteur &v)
    }
 }
 
-void afficher(const Vecteur &v)
-{
+void afficher(const Vecteur &v) {
    //Afficher sans texte
    cout << "[";
    for (auto &val : v)
@@ -68,20 +70,16 @@ void afficher(const Vecteur &v)
    cout << "]" << endl;
 }
 
-bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v)
-{
+bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v) {
 }
 
-Vecteur multiplicationParScalaire(int n, const Vecteur &v)
-{
+Vecteur multiplicationParScalaire(int n, const Vecteur &v) {
 }
 
-bool produitScalaire(const Vecteur &v1, const Vecteur &v2, int &resultat)
-{
+bool produitScalaire(const Vecteur &v1, const Vecteur &v2, int &resultat) {
 }
 
-void lire(Matrice &m)
-{
+void lire(Matrice &m) {
    //Ne pas ecrire "Saisir matrice:"
    //Saisir la taille de la matrice
    //Saisir chaque composante
@@ -118,8 +116,7 @@ void lire(Matrice &m)
    }
 }
 
-void afficher(const Matrice &m)
-{
+void afficher(const Matrice &m) {
    //Afficher sans texte
    cout << "[";
    for (auto &ligne : m)
@@ -138,18 +135,61 @@ void afficher(const Matrice &m)
    cout << "]" << endl;
 }
 
-bool addition(const Matrice &m1, const Matrice &m2, Matrice &m)
-{
-   m = m1;
+bool matriceValide(const Matrice &m, bool matriceCarre) {
+   if (m.empty())
+      return false;
+
+   for (size_t i = 1; i < m.size(); i++) {
+      if (m[i].size() != m[i - 1].size())
+         return false;
+   }
    return true;
 }
 
-bool produit(const Matrice &m1, const Matrice &m2, Matrice &m)
-{
+bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
+   if (m1.size() != m2.size() || not matriceValide(m1, true) ||
+       not matriceValide(m2, true) || m1[0].size() != m2[0].size())
+      return false;
+
+   m.resize(m1.size());
+
+   for (size_t i = 0; i < m1.size(); i++) {
+      m[i].resize(m1.size());
+      for (size_t j = 0; j < m1[i].size(); j++) {
+         m[i][j] = m1[i][j] + m2[i][j];
+      }
+   }
+
+   return true;
 }
 
-Matrice transposee(const Matrice &m)
-{
+bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
+   if (not matriceValide(m1) || not matriceValide(m2) ||
+       m1[0].size() != m2.size())
+      return false;
+
+   // TODO Resize m
+   for (size_t row = 0; row < m.size(); ++row) {
+      for (size_t col = 0; col < m.at(0).size(); ++col) {
+         for (size_t inner = 0; inner < m2.size(); ++inner) {
+            m.at(row).at(col) += m1.at(row).at(inner) * m2.at(inner).at(col);
+         }
+      }
+   }
+   return true;
+}
+
+Matrice transposee(const Matrice &m) {
+   if (not matriceValide(m))
+      return m;
+
+   std::vector<std::vector<int>> mTranspose(m.size(),std::vector<int>(m[0].size()));
+
+   for (size_t i = 0; i < m.size(); i++)
+      for (size_t j = 0; j < m[i].size(); j++)
+         mTranspose[i][j] = m[j][i];
+
+   return mTranspose;
 }
 
 void verificationEntier(int &entreeUtilisateur)
