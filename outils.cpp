@@ -23,9 +23,9 @@ using namespace std;
 using Vecteur = std::vector<int>;
 using Matrice = std::vector<Vecteur>;
 
-bool matriceValide(const Matrice &m, bool matriceCarre = false);
-void verificationEntier(int &entreeUtilisateur);
-void verificationEntierPositif(int &entreeUtilisateur);
+static bool matriceValide(const Matrice &m, bool matriceCarre = false);
+static void verificationEntier(int &entreeUtilisateur);
+static void verificationEntierPositif(int &entreeUtilisateur);
 
 void lire(Vecteur &v) {
    //Ne pas ecrire "Saisir vecteur:"
@@ -45,7 +45,7 @@ void lire(Vecteur &v) {
    int entierUtilisateur;
 
    for (unsigned i = 0; i < nombreComposantes; i++) {
-      cout << "Saisir le composant numero " << i << " : ";
+      cout << "Saisir le composant numero " << i + 1 << " : ";
 
       cin >> entierUtilisateur;
 
@@ -99,7 +99,7 @@ void lire(Matrice &m) {
 
    for (unsigned i = 0; i < lignesMatrice; i++) {
       for (unsigned j = 0; j < colonnesMatrice; j++) {
-         cout << "Saisir le composant de la ligne " << i << " colonne " << j
+         cout << "Saisir le composant de la ligne " << i + 1 << " colonne " << j + 1
               << " : ";
 
          cin >> entierUtilisateur;
@@ -146,7 +146,7 @@ bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
    m.resize(m1.size());
 
    for (size_t i = 0; i < m1.size(); i++) {
-      m[i].resize(m1.size());
+      m[i].resize(m1[0].size());
       for (size_t j = 0; j < m1[i].size(); j++) {
          m[i][j] = m1[i][j] + m2[i][j];
       }
@@ -179,11 +179,11 @@ Matrice transposee(const Matrice &m) {
    if (not matriceValide(m))
       return m;
 
-   std::vector<std::vector<int>> mTranspose(m.size(), std::vector<int>(m[0].size()));
+   vector<vector<int>> mTranspose(m[0].size(), vector<int>(m.size()));
 
-   for (size_t i = 0; i < m.size(); i++)
-      for (size_t j = 0; j < m[i].size(); j++)
-         mTranspose[i][j] = m[j][i];
+   for (size_t i = 0; i < m.size(); ++i)
+      for (size_t j = 0; j < m[0].size(); ++j)
+         mTranspose[j][i] = m[i][j];
 
    mTranspose.shrink_to_fit();
    return mTranspose;

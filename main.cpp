@@ -121,7 +121,7 @@ unsigned affichageChoixOperation(){
    unsigned choixUtilisateur;
    cin >> choixUtilisateur;
 
-   while (cin.fail() || choixUtilisateur > 5)
+   while (cin.fail() || choixUtilisateur > 6)
    {
       cin.clear();
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
