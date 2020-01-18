@@ -21,22 +21,22 @@
 
 using namespace std;
 
+// Affiche le menu et retourne le numero du choix
 unsigned affichageChoixOperation();
-void demandeSaisieVecteur(const string& nomVecteur, vector<int>& v);
-void demandeSaisieMatrice(const string& nomMatrice, vector<vector<int>>& m);
+void demandeSaisieVecteur(const string &nomVecteur, vector<int> &v);
+void demandeSaisieMatrice(const string &nomMatrice, vector<vector<int>> &m);
 
-int main()
-{
+int main() {
    vector<int> v1, v2, vResultat;
    vector<vector<int>> m1, m2, mResultat;
 
    unsigned numeroOperation;
    bool quitter = false;
 
-   while(not quitter){
+   while (not quitter) {
 
       numeroOperation = affichageChoixOperation();
-      switch (numeroOperation){
+      switch (numeroOperation) {
          case 0: // Quitter l'application
             quitter = true;
             break;
@@ -81,7 +81,7 @@ int main()
          case 5: // Produit de deux matrices
             demandeSaisieMatrice("matrice 1", m1);
             demandeSaisieMatrice("matrice 2", m2);
-            if(produit(m1, m2, mResultat))
+            if (produit(m1, m2, mResultat))
                afficher(mResultat);
             else
                cout << "Le produit des matrices n'a pas pu etre effectue" << endl;
@@ -103,7 +103,7 @@ int main()
    return EXIT_SUCCESS;
 }
 
-unsigned affichageChoixOperation(){
+unsigned affichageChoixOperation() {
    cout << "----------------------MENU----------------------" << endl;
    cout << "0. Quitter" << endl;
    cout << "VECTEURS :" << endl;
@@ -112,33 +112,35 @@ unsigned affichageChoixOperation(){
    cout << "3. Produit scalaire de deux vecteurs" << endl;
    cout << "MATRICES :" << endl;
    cout << "4. Addition de deux matrices" << endl;
-   cout << "5. Produit de deux matrices" << endl;
+   cout << "5. Multiplication de deux matrices" << endl;
    cout << "6. Transposee d'une matrices" << endl;
    cout << "------------------------------------------------" << endl;
 
-   cout << "Entrer le numero de votre choix : ";
 
    unsigned choixUtilisateur;
-   cin >> choixUtilisateur;
 
-   while (cin.fail() || choixUtilisateur > 6)
-   {
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+   do {
+      cout << "Entrer le numero de votre choix : ";
+      if (cin >> choixUtilisateur && choixUtilisateur <= 6) {
+         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // vide le buffer
+         break;
+      } else {
+         cin.clear();
+         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+         cout << "Saisie erronnee !" << endl;
+      }
+   } while (true);
 
-      cout << "Saisie erronnee !" << endl;
-      cout << "Entrer a nouveau le numero de votre choix : ";
-      cin >> choixUtilisateur;
-   }
+
    return choixUtilisateur;
 }
 
-void demandeSaisieVecteur(const string& nomVecteur, vector<int>& v) {
+void demandeSaisieVecteur(const string &nomVecteur, vector<int> &v) {
    cout << "Saisie du " << nomVecteur << endl;
    lire(v);
 }
 
-void demandeSaisieMatrice(const string& nomMatrice, vector<vector<int>>& m){
+void demandeSaisieMatrice(const string &nomMatrice, vector<vector<int>> &m) {
    cout << "Saisie de la " << nomMatrice << endl;
    lire(m);
 }
