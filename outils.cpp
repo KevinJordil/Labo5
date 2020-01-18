@@ -168,7 +168,7 @@ void afficher(const Matrice &m) {
 bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
    // Controle si les matrices sont valides et si elles ont la même taille
    if (m1.size() != m2.size() || not matriceValide(m1) ||
-       not matriceValide(m2) || m1[0].size() != m2[0].size())
+       not matriceValide(m2) || m1.front().size() != m2.front().size())
       return false;
 
    // Redimension des lignes
@@ -176,7 +176,7 @@ bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
 
    for (size_t i = 0; i < m1.size(); i++) {
       // Redimension des colonnes de la ligne courante
-      m[i].resize(m1[0].size());
+      m[i].resize(m1.front().size());
       for (size_t j = 0; j < m1[i].size(); j++) {
          m[i][j] = m1[i][j] + m2[i][j];
       }
@@ -191,7 +191,7 @@ bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
    // Contrôle si les matrices sont valides et possèdent les tailles adéquatent
    // pour réaliser une multiplication
    if (not matriceValide(m1) || not matriceValide(m2) ||
-       m1[0].size() != m2.size())
+       m1.front().size() != m2.size())
       return false;
 
    // Redimension des lignes
@@ -199,11 +199,11 @@ bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
 
    for (size_t i = 0; i < m1.size(); ++i) {
       // Redimension des colonnes de la ligne courante
-      m[i].resize(m2[0].size());
-      for (size_t j = 0; j < m2[0].size(); ++j) {
+      m[i].resize(m2.front().size());
+      for (size_t j = 0; j < m2.front().size(); ++j) {
          // Définit l'élément a zéro pour le calcul
          m[i][j] = 0;
-         for (size_t k = 0; k < m1[0].size(); ++k) {
+         for (size_t k = 0; k < m1.front().size(); ++k) {
             m[i][j] += m1[i][k] * m2[k][j];
          }
       }
@@ -219,11 +219,11 @@ Matrice transposee(const Matrice &m) {
    if (not matriceValide(m))
       return m;
 
-   vector<vector<int>> mTranspose(m[0].size(), vector<int>(m.size()));
+   vector<vector<int>> mTranspose(m.front().size(), vector<int>(m.size()));
 
    // Passe les valeurs dans la matrice transposée
    for (size_t i = 0; i < m.size(); ++i)
-      for (size_t j = 0; j < m[0].size(); ++j)
+      for (size_t j = 0; j < m.front().size(); ++j)
          mTranspose[j][i] = m[i][j];
 
    // Reduit la capacité à la taille actuelle
