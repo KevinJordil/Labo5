@@ -63,7 +63,7 @@ int main()
             demandeSaisieVecteur("vecteur 1", v1);
             demandeSaisieVecteur("vecteur 2", v2);
             if (produitScalaire(v1, v2, resultat))
-               cout << "Le resultat est : " << resultat;
+               cout << "Le resultat est : " << resultat << endl;
             else
                cout << "Le produit scalaire n'a pas pu etre realise" << endl;
             break;
