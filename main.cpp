@@ -16,6 +16,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <iomanip>
+#include <limits>
 #include "outils.h"
 
 using namespace std;
@@ -36,11 +37,11 @@ int main()
 
       numeroOperation = affichageChoixOperation();
       switch (numeroOperation){
-         case 0:
+         case 0: // Quitter l'application
             quitter = true;
             break;
 
-         case 1:
+         case 1: //Addition deux vecteurs
             demandeSaisieVecteur("vecteur 1", v1);
             demandeSaisieVecteur("vecteur 2", v2);
             if (addition(v1, v2, vResultat))
@@ -49,7 +50,7 @@ int main()
                cout << "L'addition des vecteurs n'a pas pu etre effectuee" << endl;
             break;
 
-         case 2:
+         case 2: // Multiplication d'un vecteur pas un scalaire
             int scalaire;
             demandeSaisieVecteur("vecteur", v1);
             cout << "Saisir le scalaire : ";
@@ -58,7 +59,7 @@ int main()
             afficher(vResultat);
             break;
 
-         case 3:
+         case 3: // Produit scalaire de deux vecteurs
             int resultat;
             demandeSaisieVecteur("vecteur 1", v1);
             demandeSaisieVecteur("vecteur 2", v2);
@@ -68,7 +69,7 @@ int main()
                cout << "Le produit scalaire n'a pas pu etre realise" << endl;
             break;
 
-         case 4:
+         case 4: // Addition de deux matrices
             demandeSaisieMatrice("matrice 1", m1);
             demandeSaisieMatrice("matrice 2", m2);
             if (addition(m1, m2, mResultat))
@@ -77,7 +78,7 @@ int main()
                cout << "L'addition des matrices n'a pas pu etre effectuee" << endl;
             break;
 
-         case 5:
+         case 5: // Produit de deux matrices
             demandeSaisieMatrice("matrice 1", m1);
             demandeSaisieMatrice("matrice 2", m2);
             if(produit(m1, m2, mResultat))
@@ -86,7 +87,7 @@ int main()
                cout << "Le produit des matrices n'a pas pu etre effectue" << endl;
             break;
 
-         case 6:
+         case 6: // Transposée d'une matrice
             demandeSaisieMatrice("matrice", m1);
             mResultat = transposee(m1);
             afficher(mResultat);
@@ -120,7 +121,11 @@ unsigned affichageChoixOperation(){
    unsigned choixUtilisateur;
    cin >> choixUtilisateur;
 
-   while(choixUtilisateur > 5){
+   while (cin.fail() || choixUtilisateur > 6)
+   {
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
       cout << "Saisie erronnee !" << endl;
       cout << "Entrer a nouveau le numero de votre choix : ";
       cin >> choixUtilisateur;
@@ -129,11 +134,11 @@ unsigned affichageChoixOperation(){
 }
 
 void demandeSaisieVecteur(const string& nomVecteur, vector<int>& v) {
-   cout << "Saisir le " << nomVecteur << " :" << endl;
+   cout << "Saisie du " << nomVecteur << endl;
    lire(v);
 }
 
 void demandeSaisieMatrice(const string& nomMatrice, vector<vector<int>>& m){
-   cout << "Saisir le " << nomMatrice << " :" << endl;
+   cout << "Saisie de la " << nomMatrice << endl;
    lire(m);
 }

@@ -58,8 +58,7 @@ void afficher(const Vecteur &v)
    for (auto& val : v)
    {
       cout << val;
-      if (&val != &v.back())
-      {
+      if (&val != &v.back()) {
          cout << ", ";
       }
    }
@@ -108,8 +107,7 @@ void lire(Matrice& m)
 
    m.resize(lignesMatrice);
 
-   for (unsigned i = 0; i < lignesMatrice; i++)
-   {
+   for (unsigned i = 0; i < lignesMatrice; i++) {
       m.at(i).resize(colonnesMatrice);
    }
 
@@ -140,11 +138,11 @@ void afficher(const Matrice& m)
       {
          cout << colonne;
          if (&colonne != &ligne.back())
-         {
             cout << ", ";
-         }
       }
-      cout << "];";
+      cout << "]";
+      if (&ligne != &m.back())
+         cout << ";";
    }
    cout << "]" << endl;
 }
@@ -170,15 +168,13 @@ bool addition(const Matrice& m1, const Matrice& m2, Matrice& m)
 
    m.resize(m1.size());
 
-   for (size_t i = 0; i < m1.size(); i++)
-   {
-      m[i].resize(m1.size());
-      for (size_t j = 0; j < m1[i].size(); j++)
-      {
+   for (size_t i = 0; i < m1.size(); i++) {
+      m[i].resize(m1[0].size());
+      for (size_t j = 0; j < m1[i].size(); j++) {
          m[i][j] = m1[i][j] + m2[i][j];
       }
    }
-
+   m.shrink_to_fit();
    return true;
 }
 
@@ -188,17 +184,18 @@ bool produit(const Matrice& m1, const Matrice& m2, Matrice& m)
        m1[0].size() != m2.size())
       return false;
 
-   // TODO Resize m
-   for (size_t row = 0; row < m.size(); ++row)
-   {
-      for (size_t col = 0; col < m.at(0).size(); ++col)
-      {
-         for (size_t inner = 0; inner < m2.size(); ++inner)
-         {
-            m.at(row).at(col) += m1.at(row).at(inner) * m2.at(inner).at(col);
+   m.resize(m1.size());
+
+   for(size_t i = 0; i < m1.size(); ++i){
+      m[i].resize(m2[0].size());
+      for(size_t j = 0; j < m2[0].size(); ++j) {
+         m[i][j] = 0;
+         for (size_t k = 0; k < m1[0].size(); ++k) {
+            m[i][j] += m1[i][k] * m2[k][j];
          }
       }
    }
+   m.shrink_to_fit();
    return true;
 }
 
@@ -207,19 +204,18 @@ Matrice transposee(const Matrice& m)
    if (not matriceValide(m))
       return m;
 
-   std::vector<std::vector<int>> mTranspose(m.size(), std::vector<int>(m[0].size()));
+   vector<vector<int>> mTranspose(m[0].size(), vector<int>(m.size()));
 
-   for (size_t i = 0; i < m.size(); i++)
-      for (size_t j = 0; j < m[i].size(); j++)
-         mTranspose[i][j] = m[j][i];
+   for (size_t i = 0; i < m.size(); ++i)
+      for (size_t j = 0; j < m[0].size(); ++j)
+         mTranspose[j][i] = m[i][j];
 
+   mTranspose.shrink_to_fit();
    return mTranspose;
 }
 
-void verificationEntier(int& entreeUtilisateur)
-{
-   while (cin.fail())
-   {
+void verificationEntier(int &entreeUtilisateur) {
+   while (cin.fail()) {
       cin.clear();
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
