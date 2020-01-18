@@ -232,21 +232,28 @@ Matrice transposee(const Matrice &m) {
 }
 
 void verificationEntier(int &entreeUtilisateur) {
-   while (cin.fail()) {
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-      cout << "La valeur n'est pas un entier, essayez de nouveau : ";
-      cin >> entreeUtilisateur;
-   }
+   do {
+      if (cin >> entreeUtilisateur && entreeUtilisateur >= 0) {
+         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // vide le buffer
+         break;
+      } else {
+         cin.clear();
+         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+         cout << "La valeur n'est pas un entier, essayez de nouveau : ";
+      }
+   } while (true);
 }
 
 void verificationEntierPositif(int &entreeUtilisateur) {
-   while (cin.fail() || entreeUtilisateur < 1) {
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-      cout << "La valeur n'est pas un entier positif, essayez de nouveau : ";
-      cin >> entreeUtilisateur;
-   }
+   do {
+      if (cin >> entreeUtilisateur && entreeUtilisateur > 0) {
+         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // vide le buffer
+         break;
+      } else {
+         cin.clear();
+         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+         cout << "La valeur n'est pas un entier positif, essayez de nouveau : ";
+      }
+   } while (true);
 }
+
