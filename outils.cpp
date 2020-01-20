@@ -47,7 +47,7 @@ void lire(Vecteur &v) {
 
    cout << "Saisir le nombre de composantes du vecteur : ";
 
-   verificationEntierPositif(nombreComposantes);
+   saisieUtilisateurEntierPositif(nombreComposantes);
 
    v.resize(nombreComposantes);
 
@@ -56,7 +56,7 @@ void lire(Vecteur &v) {
    for (unsigned i = 0; i < nombreComposantes; i++) {
       cout << "Saisir le composant numero " << i + 1 << " : ";
 
-      verificationEntier(entierUtilisateur);
+      saisieUtilisateurEntier(entierUtilisateur);
       v.at(i) = entierUtilisateur;
    }
 }
@@ -98,11 +98,11 @@ bool produitScalaire(const Vecteur &v1, const Vecteur &v2, int &resultat) {
 void lire(Matrice &m) {
    cout << "Saisir le nombre de lignes : ";
    int lignesMatrice;
-   verificationEntierPositif(lignesMatrice);
+   saisieUtilisateurEntierPositif(lignesMatrice);
 
    cout << "Saisir le nombre de colonnes : ";
    int colonnesMatrice;
-   verificationEntierPositif(colonnesMatrice);
+   saisieUtilisateurEntierPositif(colonnesMatrice);
 
    m.resize(lignesMatrice);
 
@@ -117,7 +117,7 @@ void lire(Matrice &m) {
          cout << "Saisir le composant de la ligne " << i + 1 << " colonne " << j
               << " : ";
 
-         verificationEntier(entierUtilisateur);
+         saisieUtilisateurEntier(entierUtilisateur);
          m.at(i).at(j) = entierUtilisateur;
       }
    }
