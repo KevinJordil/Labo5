@@ -19,7 +19,7 @@
                   - Multiplication de deux matrices
                   - Transposée d'une matrice
 
- Remarque(s) : Une matrice vide est considérée comme une matrice non-valide
+ Remarque(s) :
                L'affichage des matrices fonctionne uniquement avec des matrices
                valides.
 
@@ -130,10 +130,6 @@ void lire(Matrice &m) {
 
 // Controle que la matrice possède à chaque ligne le même nombre de colonnes
 bool matriceValide(const Matrice &m) {
-   // Une matrice vide est considérée comme non-valide
-   if (m.empty())
-      return false;
-
    // On controle que la ligne a le meme nombre de colonne que la ligne precedente
    for (size_t i = 1; i < m.size(); i++) {
       if (m[i].size() != m[i - 1].size())
@@ -143,7 +139,7 @@ bool matriceValide(const Matrice &m) {
 }
 
 void afficher(const Matrice &m) {
-   if (not matriceValide(m)){
+   if (not matriceValide(m)) {
       cout << "L'element n'est pas une matrice" << endl;
       return;
    }
@@ -164,9 +160,16 @@ void afficher(const Matrice &m) {
 }
 
 bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
+   // Le produit de 2 matrices nulles est une matrice nulle
+   if (m1.empty() && m2.empty()) {
+      m.clear();
+      return true;
+   }
+
    // Controle si les matrices sont valides et si elles ont la même taille
    if (m1.size() != m2.size() || not matriceValide(m1) ||
-       not matriceValide(m2) || m1.front().size() != m2.front().size())
+       not matriceValide(m2) ||
+       (not m1.empty() && m1.front().size() == m2.front().size()))
       return false;
 
    // Redimension des lignes
@@ -186,6 +189,12 @@ bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
 }
 
 bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
+   // Le produit de 2 matrices nulles est une matrice nulle
+   if (m1.empty() && m2.empty()) {
+      m.clear();
+      return true;
+   }
+
    // Contrôle si les matrices sont valides et possèdent les tailles adéquatent
    // pour réaliser une multiplication
    if (not matriceValide(m1) || not matriceValide(m2) ||
@@ -214,7 +223,7 @@ bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
 
 Matrice transposee(const Matrice &m) {
    // Contrôle si la matrice est valide
-   if (not matriceValide(m))
+   if (not matriceValide(m) || m.empty())
       return m;
 
    vector<vector<int>> mTranspose(m.front().size(), vector<int>(m.size()));
