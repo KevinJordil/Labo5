@@ -66,6 +66,8 @@ void lire(Vecteur &v) {
 
 void afficher(const Vecteur &v) {
    cout << "[";
+   // Comparaison des adresses des variables
+   // Permet de trouver la dernière itération de la boucle
    for (auto &val : v) {
       cout << val;
       if (&val != &v.back()) {
@@ -76,7 +78,7 @@ void afficher(const Vecteur &v) {
 }
 
 bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v) {
-   if (v1.size() != v2.size())
+   if (v1.size() != v2.size() || v1.size() == 0)
        return false;
 
    v.resize(v1.size());
@@ -93,11 +95,10 @@ Vecteur multiplicationParScalaire(int n, const Vecteur &v) {
 }
 
 bool produitScalaire(const Vecteur &v1, const Vecteur &v2, int &resultat) {
-   if (v1.size() == v2.size()) {
-      resultat = inner_product(v1.begin(), v1.end(), v2.begin(), 0);
-      return true;
-   }
-   return false;
+   if (v1.size() != v2.size() || v1.size() == 0)
+      return false;
+   resultat = inner_product(v1.begin(), v1.end(), v2.begin(), 0);
+   return true;
 }
 
 void lire(Matrice &m) {
