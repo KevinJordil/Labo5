@@ -39,8 +39,8 @@ using Vecteur = std::vector<int>;
 using Matrice = std::vector<Vecteur>;
 
 static bool matriceValide(const Matrice &m);
-static void verificationEntier(int &entreeUtilisateur);
-static void verificationEntierPositif(int &entreeUtilisateur);
+static void saisieUtilisateurEntier(int &entreeUtilisateur);
+static void saisieUtilisateurEntierPositif(int &entreeUtilisateur);
 static int  additionEntiers(int a, int b);
 static int  multiplicationEntiers(int a, int b);
 
