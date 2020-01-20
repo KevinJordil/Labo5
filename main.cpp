@@ -120,7 +120,7 @@ unsigned affichageChoixOperation() {
    unsigned choixUtilisateur;
 
    do {
-      cout << "Entrer le numero de votre choix : ";
+      cout << "Entrer le numero de votre choix (de 0 à 6) : ";
       if (cin >> choixUtilisateur && choixUtilisateur <= 6) {
          cin.ignore(numeric_limits<streamsize>::max(), '\n'); // vide le buffer
          break;

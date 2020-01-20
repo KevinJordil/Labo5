@@ -19,7 +19,8 @@
                   - Multiplication de deux matrices
                   - Transposée d'une matrice
 
- Remarque(s) :
+ Remarque(s) : Une matrice vide est considérée comme une matrice invalide. On ne
+               peut donc pas faire d'opération avec.
                L'affichage des matrices fonctionne uniquement avec des matrices
                valides.
 
@@ -39,8 +40,7 @@ using Vecteur = std::vector<int>;
 using Matrice = std::vector<Vecteur>;
 
 static bool matriceValide(const Matrice &m);
-static void saisieUtilisateurEntier(int &entreeUtilisateur);
-static void saisieUtilisateurEntierPositif(int &entreeUtilisateur);
+static void saisieUtilisateurEntier(int &entreeUtilisateur, bool positif = false);
 static int  additionEntiers(int a, int b);
 static int  multiplicationEntiers(int a, int b);
 
@@ -50,7 +50,7 @@ void lire(Vecteur &v) {
 
    cout << "Saisir le nombre de composantes du vecteur : ";
 
-   saisieUtilisateurEntierPositif(nombreComposantes);
+   saisieUtilisateurEntier(nombreComposantes, true);
 
    v.resize(nombreComposantes);
 
@@ -104,11 +104,11 @@ bool produitScalaire(const Vecteur &v1, const Vecteur &v2, int &resultat) {
 void lire(Matrice &m) {
    cout << "Saisir le nombre de lignes : ";
    int lignesMatrice;
-   saisieUtilisateurEntierPositif(lignesMatrice);
+   saisieUtilisateurEntier(lignesMatrice, true);
 
    cout << "Saisir le nombre de colonnes : ";
    int colonnesMatrice;
-   saisieUtilisateurEntierPositif(colonnesMatrice);
+   saisieUtilisateurEntier(colonnesMatrice, true);
 
    m.resize(lignesMatrice);
 
@@ -127,16 +127,6 @@ void lire(Matrice &m) {
          m.at(i).at(j) = entierUtilisateur;
       }
    }
-}
-
-// Controle que la matrice possède à chaque ligne le même nombre de colonnes
-bool matriceValide(const Matrice &m) {
-   // On controle que la ligne a le meme nombre de colonne que la ligne precedente
-   for (size_t i = 1; i < m.size(); i++) {
-      if (m[i].size() != m[i - 1].size())
-         return false;
-   }
-   return true;
 }
 
 void afficher(const Matrice &m) {
@@ -161,27 +151,17 @@ void afficher(const Matrice &m) {
 }
 
 bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
-   // Le produit de 2 matrices nulles est une matrice nulle
-   if (m1.empty() && m2.empty()) {
-      m.clear();
-      return true;
-   }
-
    // Controle si les matrices sont valides et si elles ont la même taille
    if (m1.size() != m2.size() || not matriceValide(m1) ||
-       not matriceValide(m2) ||
-       (not m1.empty() && m1.front().size() == m2.front().size()))
+       not matriceValide(m2) ||  m1.front().size() != m2.front().size())
       return false;
 
    // Redimension des lignes
    m.resize(m1.size());
 
    for (size_t i = 0; i < m1.size(); i++) {
-      // Redimension des colonnes de la ligne courante
-      m[i].resize(m1.front().size());
-      for (size_t j = 0; j < m1[i].size(); j++) {
-         m[i][j] = m1[i][j] + m2[i][j];
-      }
+      // Utilisation de l'addition de vecteur
+      addition(m1[i], m2[i], m[i]);
    }
 
    // Reduit la capacité à la taille actuelle
@@ -190,16 +170,10 @@ bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
 }
 
 bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
-   // Le produit de 2 matrices nulles est une matrice nulle
-   if (m1.empty() && m2.empty()) {
-      m.clear();
-      return true;
-   }
-
    // Contrôle si les matrices sont valides et possèdent les tailles adéquatent
    // pour réaliser une multiplication
    if (not matriceValide(m1) || not matriceValide(m2) ||
-       m1.front().size() != m2.size())
+   m1.front().size() != m2.size())
       return false;
 
    // Redimension des lignes
@@ -224,7 +198,7 @@ bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
 
 Matrice transposee(const Matrice &m) {
    // Contrôle si la matrice est valide
-   if (not matriceValide(m) || m.empty())
+   if (not matriceValide(m))
       return m;
 
    vector<vector<int>> mTranspose(m.front().size(), vector<int>(m.size()));
@@ -239,28 +213,30 @@ Matrice transposee(const Matrice &m) {
    return mTranspose;
 }
 
-void saisieUtilisateurEntier(int &entreeUtilisateur) {
-   do {
-      if (cin >> entreeUtilisateur && entreeUtilisateur >= 0) {
-         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // vide le buffer
-         break;
-      } else {
-         cin.clear();
-         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-         cout << "La valeur n'est pas un entier, essayez de nouveau : ";
-      }
-   } while (true);
+// Controle que la matrice possède à chaque ligne le même nombre de colonnes
+bool matriceValide(const Matrice &m) {
+   if (m.empty())
+      return false;
+
+   // On controle que la ligne a le meme nombre de colonne que la ligne precedente
+   for (size_t i = 1; i < m.size(); i++) {
+      if (m[i].size() != m[i - 1].size())
+         return false;
+   }
+   return true;
 }
 
-void saisieUtilisateurEntierPositif(int &entreeUtilisateur) {
+void saisieUtilisateurEntier(int &entreeUtilisateur, bool positif) {
    do {
-      if (cin >> entreeUtilisateur && entreeUtilisateur > 0) {
+      if (cin >> entreeUtilisateur && (positif ? entreeUtilisateur > 0 : true)) {
          cin.ignore(numeric_limits<streamsize>::max(), '\n'); // vide le buffer
          break;
       } else {
          cin.clear();
          cin.ignore(numeric_limits<streamsize>::max(), '\n');
-         cout << "La valeur n'est pas un entier positif, essayez de nouveau : ";
+         cout << "La valeur n'est pas un entier"
+              << (positif ? " positif" : "")
+              << ", essayez de nouveau : ";
       }
    } while (true);
 }
