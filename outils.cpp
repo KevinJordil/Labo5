@@ -39,8 +39,11 @@ using Vecteur = std::vector<int>;
 using Matrice = std::vector<Vecteur>;
 
 static bool matriceValide(const Matrice &m);
-static void saisieUtilisateurEntier(int &entreeUtilisateur);
-static void saisieUtilisateurEntierPositif(int &entreeUtilisateur);
+static void verificationEntier(int &entreeUtilisateur);
+static void verificationEntierPositif(int &entreeUtilisateur);
+static int  additionEntiers(int a, int b);
+static int  multiplicationEntiers(int a, int b);
+
 
 void lire(Vecteur &v) {
    int nombreComposantes;
@@ -73,17 +76,19 @@ void afficher(const Vecteur &v) {
 }
 
 bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v) {
-   if (v1.size() == v2.size()) {
-      v.resize(v1.size());
-      transform(v1.begin(), v1.end(), v2.begin(), v.begin(), plus<int>());
-      return true;
-   }
-   return false;
+   if (v1.size() != v2.size())
+       return false;
+
+   v.resize(v1.size());
+   transform(v1.begin(), v1.end(), v2.begin(), v.begin(), additionEntiers);
+   return true;
 }
 
 Vecteur multiplicationParScalaire(int n, const Vecteur &v) {
    Vecteur resultat(v.size());
-   transform(v.begin(), v.end(), resultat.begin(), bind1st(multiplies<int>(), n));
+   // Vecteur du scalaire
+   Vecteur s (v.size(), n);
+   transform(v.begin(), v.end(), s.begin(), resultat.begin(), multiplicationEntiers);
    return resultat;
 }
 
@@ -250,3 +255,10 @@ void saisieUtilisateurEntierPositif(int &entreeUtilisateur) {
    } while (true);
 }
 
+int additionEntiers (int a, int b){
+   return a + b;
+}
+
+int multiplicationEntiers (int a, int b){
+   return a * b;
+}
