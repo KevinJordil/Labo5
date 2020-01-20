@@ -39,14 +39,13 @@ using Vecteur = std::vector<int>;
 using Matrice = std::vector<Vecteur>;
 
 static bool matriceValide(const Matrice &m);
-static void verificationEntier(int &entreeUtilisateur);
-static void verificationEntierPositif(int &entreeUtilisateur);
+static void saisieUtilisateurEntier(int &entreeUtilisateur);
+static void saisieUtilisateurEntierPositif(int &entreeUtilisateur);
 
 void lire(Vecteur &v) {
    int nombreComposantes;
 
    cout << "Saisir le nombre de composantes du vecteur : ";
-   cin >> nombreComposantes;
 
    verificationEntierPositif(nombreComposantes);
 
@@ -56,8 +55,6 @@ void lire(Vecteur &v) {
 
    for (unsigned i = 0; i < nombreComposantes; i++) {
       cout << "Saisir le composant numero " << i + 1 << " : ";
-
-      cin >> entierUtilisateur;
 
       verificationEntier(entierUtilisateur);
       v.at(i) = entierUtilisateur;
@@ -101,12 +98,10 @@ bool produitScalaire(const Vecteur &v1, const Vecteur &v2, int &resultat) {
 void lire(Matrice &m) {
    cout << "Saisir le nombre de lignes : ";
    int lignesMatrice;
-   cin >> lignesMatrice;
    verificationEntierPositif(lignesMatrice);
 
    cout << "Saisir le nombre de colonnes : ";
    int colonnesMatrice;
-   cin >> colonnesMatrice;
    verificationEntierPositif(colonnesMatrice);
 
    m.resize(lignesMatrice);
@@ -121,8 +116,6 @@ void lire(Matrice &m) {
       for (unsigned j = 0; j < colonnesMatrice; j++) {
          cout << "Saisir le composant de la ligne " << i + 1 << " colonne " << j
               << " : ";
-
-         cin >> entierUtilisateur;
 
          verificationEntier(entierUtilisateur);
          m.at(i).at(j) = entierUtilisateur;
@@ -231,7 +224,7 @@ Matrice transposee(const Matrice &m) {
    return mTranspose;
 }
 
-void verificationEntier(int &entreeUtilisateur) {
+void saisieUtilisateurEntier(int &entreeUtilisateur) {
    do {
       if (cin >> entreeUtilisateur && entreeUtilisateur >= 0) {
          cin.ignore(numeric_limits<streamsize>::max(), '\n'); // vide le buffer
@@ -244,7 +237,7 @@ void verificationEntier(int &entreeUtilisateur) {
    } while (true);
 }
 
-void verificationEntierPositif(int &entreeUtilisateur) {
+void saisieUtilisateurEntierPositif(int &entreeUtilisateur) {
    do {
       if (cin >> entreeUtilisateur && entreeUtilisateur > 0) {
          cin.ignore(numeric_limits<streamsize>::max(), '\n'); // vide le buffer
