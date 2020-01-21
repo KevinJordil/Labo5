@@ -23,6 +23,10 @@
                peut donc pas faire d'opération avec.
                L'affichage des matrices fonctionne uniquement avec des matrices
                valides.
+               Un vecteur vide est considéré comme un vecteur invalide. On ne 
+               peut donc pas faire d'opération avec. L'affichage d'un vecteur
+               fonctionne uniquement avec des vecteurs valides.
+               
 
  Compilateur : MinGW-g++ 6.3.0
  -----------------------------------------------------------------------------------
@@ -67,6 +71,11 @@ void lire(Vecteur &v) {
 }
 
 void afficher(const Vecteur &v) {
+   if (v.empty()){
+      cout << "L'element n'est pas un vecteur valide" << endl;
+      return;
+   }
+
    cout << "[";
    // Comparaison des adresses des variables
    // Permet de trouver la dernière itération de la boucle
