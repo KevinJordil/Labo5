@@ -23,14 +23,14 @@
                peut donc pas faire d'opération avec.
                L'affichage des matrices fonctionne uniquement avec des matrices
                valides.
-               Un vecteur vide est considéré comme un vecteur invalide. On ne 
+               Un vecteur vide est considéré comme un vecteur invalide. On ne
                peut donc pas faire d'opération avec. L'affichage d'un vecteur
                fonctionne uniquement avec des vecteurs valides.
-               
+
 
  Compilateur : MinGW-g++ 6.3.0
  -----------------------------------------------------------------------------------
-*/
+ */
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -45,8 +45,8 @@ using Matrice = std::vector<Vecteur>;
 
 static bool matriceValide(const Matrice &m);
 static void saisieUtilisateurEntier(int &entreeUtilisateur, bool positif = false);
-static int  additionEntiers(int a, int b);
-static int  multiplicationEntiers(int a, int b);
+static int additionEntiers(int a, int b);
+static int multiplicationEntiers(int a, int b);
 
 const string ouvertureTableau = "[";
 const string fermetureTableau = "]";
@@ -64,7 +64,7 @@ void lire(Vecteur &v) {
 
    int entierUtilisateur;
 
-   for (unsigned i = 0; i < nombreComposantes; i++) {
+   for (int i = 0; i < nombreComposantes; i++) {
       cout << "Saisir le composant numero " << i + 1 << " : ";
 
       // Demande à l'utilisateur de saisir une composante et la stocke dans le
@@ -75,7 +75,7 @@ void lire(Vecteur &v) {
 }
 
 void afficher(const Vecteur &v) {
-   if (v.empty()){
+   if (v.empty()) {
       cout << "L'element n'est pas un vecteur valide" << endl;
       return;
    }
@@ -95,7 +95,7 @@ void afficher(const Vecteur &v) {
 bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v) {
    // Controle si l'addition est possible
    if (v1.size() != v2.size() || v1.empty())
-       return false;
+      return false;
 
    v.resize(v1.size());
    transform(v1.begin(), v1.end(), v2.begin(), v.begin(), additionEntiers);
@@ -108,7 +108,7 @@ bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v) {
 Vecteur multiplicationParScalaire(int n, const Vecteur &v) {
    Vecteur resultat(v.size());
    // Vecteur du scalaire
-   Vecteur s (v.size(), n);
+   Vecteur s(v.size(), n);
    transform(v.begin(), v.end(), s.begin(), resultat.begin(), multiplicationEntiers);
    return resultat;
 }
@@ -134,9 +134,9 @@ void lire(Matrice &m) {
 
    int entierUtilisateur;
 
-   for (unsigned i = 0; i < lignesMatrice; i++) {
+   for (int i = 0; i < lignesMatrice; i++) {
       m.at(i).resize(colonnesMatrice);
-      for (unsigned j = 0; j < colonnesMatrice; j++) {
+      for (int j = 0; j < colonnesMatrice; j++) {
          cout << "Saisir le composant de la ligne " << i + 1 << " colonne " << j
               << " : ";
 
@@ -170,7 +170,7 @@ void afficher(const Matrice &m) {
 bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
    // Controle si les matrices sont valides et si elles ont la même taille
    if (m1.size() != m2.size() || not matriceValide(m1) ||
-       not matriceValide(m2) ||  m1.front().size() != m2.front().size())
+       not matriceValide(m2) || m1.front().size() != m2.front().size())
       return false;
 
    // Redimension des lignes
@@ -190,7 +190,7 @@ bool produit(const Matrice &m1, const Matrice &m2, Matrice &m) {
    // Contrôle si les matrices sont valides et possèdent les tailles adéquatent
    // pour réaliser une multiplication
    if (not matriceValide(m1) || not matriceValide(m2) ||
-   m1.front().size() != m2.size())
+       m1.front().size() != m2.size())
       return false;
 
    // Redimension des lignes
@@ -231,6 +231,7 @@ Matrice transposee(const Matrice &m) {
 }
 
 // Controle que la matrice possède à chaque ligne le même nombre de colonnes
+
 bool matriceValide(const Matrice &m) {
    if (m.empty())
       return false;
@@ -258,10 +259,10 @@ void saisieUtilisateurEntier(int &entreeUtilisateur, bool positif) {
    } while (true);
 }
 
-int additionEntiers (int a, int b){
+int additionEntiers(int a, int b) {
    return a + b;
 }
 
-int multiplicationEntiers (int a, int b){
+int multiplicationEntiers(int a, int b) {
    return a * b;
 }

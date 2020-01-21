@@ -15,7 +15,7 @@
 
  Compilateur : MinGW-g++ 6.3.0
  -----------------------------------------------------------------------------------
-*/
+ */
 
 #include <cstdlib>
 #include <iostream>
@@ -31,7 +31,8 @@ using Texte = std::string;
 using namespace std;
 
 // Affiche le menu, renvoie le choix
-unsigned affichageChoixOperation(){
+
+unsigned affichageChoixOperation() {
    cout << "----------------------MENU----------------------" << endl;
    cout << "0. Quitter" << endl;
    cout << "VECTEURS :" << endl;
@@ -64,19 +65,22 @@ unsigned affichageChoixOperation(){
 }
 
 // Demande la saisie d'un vecteur
-void demandeSaisieVecteur(const Texte &nomVecteur, Vecteur &v){
+
+void demandeSaisieVecteur(const Texte &nomVecteur, Vecteur &v) {
    cout << "Saisie du " << nomVecteur << endl;
    lire(v);
 }
 
 // Demande la saisie d'une matrice
-void demandeSaisieMatrice(const Texte &nomMatrice, Matrice &m){
+
+void demandeSaisieMatrice(const Texte &nomMatrice, Matrice &m) {
    cout << "Saisie de la " << nomMatrice << endl;
    lire(m);
 }
 
 // Affiche l'interface utilisateur
-void InterfaceUtilisateur(){
+
+void InterfaceUtilisateur() {
    vector<int> v1, v2, vResultat;
    vector<vector<int>> m1, m2, mResultat;
 
