@@ -49,7 +49,7 @@ void lire(Vecteur &v) {
    int nombreComposantes;
 
    cout << "Saisir le nombre de composantes du vecteur : ";
-
+   // Demande à l'utilisateur de saisir le nombre de composantes
    saisieUtilisateurEntier(nombreComposantes, true);
 
    v.resize(nombreComposantes);
@@ -59,6 +59,8 @@ void lire(Vecteur &v) {
    for (unsigned i = 0; i < nombreComposantes; i++) {
       cout << "Saisir le composant numero " << i + 1 << " : ";
 
+      // Demande à l'utilisateur de saisir une composante et la stocke dans le
+      // vecteur
       saisieUtilisateurEntier(entierUtilisateur);
       v.at(i) = entierUtilisateur;
    }
@@ -78,11 +80,15 @@ void afficher(const Vecteur &v) {
 }
 
 bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v) {
-   if (v1.size() != v2.size() || v1.size() == 0)
+   // Controle si l'addition est possible
+   if (v1.size() != v2.size() || v1.empty())
        return false;
 
    v.resize(v1.size());
    transform(v1.begin(), v1.end(), v2.begin(), v.begin(), additionEntiers);
+
+   // Reduit la capacité à la taille actuelle
+   v.shrink_to_fit();
    return true;
 }
 
@@ -95,8 +101,9 @@ Vecteur multiplicationParScalaire(int n, const Vecteur &v) {
 }
 
 bool produitScalaire(const Vecteur &v1, const Vecteur &v2, int &resultat) {
-   if (v1.size() != v2.size() || v1.size() == 0)
+   if (v1.size() != v2.size() || v1.empty())
       return false;
+
    resultat = inner_product(v1.begin(), v1.end(), v2.begin(), 0);
    return true;
 }
@@ -112,13 +119,10 @@ void lire(Matrice &m) {
 
    m.resize(lignesMatrice);
 
-   for (unsigned i = 0; i < lignesMatrice; i++) {
-      m.at(i).resize(colonnesMatrice);
-   }
-
    int entierUtilisateur;
 
    for (unsigned i = 0; i < lignesMatrice; i++) {
+      m.at(i).resize(colonnesMatrice);
       for (unsigned j = 0; j < colonnesMatrice; j++) {
          cout << "Saisir le composant de la ligne " << i + 1 << " colonne " << j
               << " : ";

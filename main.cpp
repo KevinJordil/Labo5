@@ -14,6 +14,7 @@
 */
 
 #include <cstdlib>
+#include <iostream>
 #include "interfaceUtilisateur.h"
 
 using namespace std;
