@@ -48,6 +48,10 @@ static void saisieUtilisateurEntier(int &entreeUtilisateur, bool positif = false
 static int  additionEntiers(int a, int b);
 static int  multiplicationEntiers(int a, int b);
 
+const string ouvertureTableau = "[";
+const string fermetureTableau = "]";
+const string separateurChiffre = ", ";
+const string separateurTableau = ";";
 
 void lire(Vecteur &v) {
    int nombreComposantes;
@@ -76,16 +80,16 @@ void afficher(const Vecteur &v) {
       return;
    }
 
-   cout << "[";
+   cout << ouvertureTableau;
    // Comparaison des adresses des variables
    // Permet de trouver la dernière itération de la boucle
    for (auto &val : v) {
       cout << val;
       if (&val != &v.back()) {
-         cout << ", ";
+         cout << separateurChiffre;
       }
    }
-   cout << "]" << endl;
+   cout << fermetureTableau << endl;
 }
 
 bool addition(const Vecteur &v1, const Vecteur &v2, Vecteur &v) {
@@ -144,23 +148,23 @@ void lire(Matrice &m) {
 
 void afficher(const Matrice &m) {
    if (not matriceValide(m)) {
-      cout << "L'element n'est pas une matrice" << endl;
+      cout << "L'element n'est pas une matrice valide" << endl;
       return;
    }
 
-   cout << "[";
+   cout << ouvertureTableau;
    for (auto &ligne : m) {
-      cout << "[";
+      cout << ouvertureTableau;
       for (auto &colonne : ligne) {
          cout << colonne;
          if (&colonne != &ligne.back())
-            cout << ", ";
+            cout << separateurChiffre;
       }
-      cout << "]";
+      cout << fermetureTableau;
       if (&ligne != &m.back())
-         cout << ";";
+         cout << separateurTableau;
    }
-   cout << "]" << endl;
+   cout << fermetureTableau << endl;
 }
 
 bool addition(const Matrice &m1, const Matrice &m2, Matrice &m) {
